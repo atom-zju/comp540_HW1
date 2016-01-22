@@ -120,3 +120,8 @@ learning_rates = [0.01, 0.03, 0.1, 0.3]
 #   4-5 lines of code expected                                         #
 ########################################################################
 
+for learning_rate in learning_rates:
+    linear_reg5 = LinearReg_SquaredLoss()
+    J_history3 = []
+    J_history3 = linear_reg5.train(XX,y,learning_rate,num_iters=5000,verbose=False)
+    plot_utils.plot_data(range(len(J_history3)),J_history3,'Number of iterations with learning rate ['+str(learning_rate)+']','Cost J')
