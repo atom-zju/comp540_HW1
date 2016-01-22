@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 
 class LinearRegressor:
@@ -115,7 +116,7 @@ class LinearReg_SquaredLoss(LinearRegressor):
         # Calculate J (loss) and grad (gradient) wrt to X,y, and self.theta.      #
         #   2-4 lines of code expected                                            #
         ###########################################################################
-        ßErr = y - np.dot(X,self.theta)
+        Err = y - np.dot(X,self.theta)
         J = np.dot(Err.T, Err) / (2 * X.shape[0])
         grad = np.dot(X.T, Err) / (-1 * X.shape[0])
 
