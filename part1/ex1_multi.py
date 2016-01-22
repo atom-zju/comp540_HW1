@@ -75,7 +75,7 @@ print 'Theta computed by gradient descent: ', linear_reg3.theta
 #   One line of code expected; replace pred_cost = 0 line              # 
 ########################################################################
 
-pred_cost = 0
+pred_cost = linear_reg3.predict(np.asarray(np.mean(XX, axis=0))) * 10000
 print 'For average home in Boston suburbs, we predict a median home value of', pred_cost
 
 
@@ -101,7 +101,7 @@ print 'Theta computed by direct solution is: ', theta_n
 #   One line of code expected; replace pred_cost = 0 line              # 
 ########################################################################
 
-pred_cost = 0
+pred_cost = np.dot(np.mean(XX1, axis=0), theta_n) * 10000
 print 'For average home in Boston suburbs, we predict a median home value of', pred_cost
 
 ########################################################################
