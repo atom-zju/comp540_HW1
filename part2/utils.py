@@ -21,9 +21,9 @@ def feature_normalize(X):
 
     ########################################################################
     # TODO: modify the three lines below to return the correct values
-    mu = np.zeros((X.shape[1],))
-    sigma = np.ones((X.shape[1],))
-    X_norm = np.zeros(X.shape)
+    mu = np.sum(X, axis=0) / X.shape[0]
+    sigma = np.std(X, axis=0)
+    X_norm = (X - np.tile(mu, (X.shape[0], 1))) / np.tile(sigma, (X.shape[0], 1))
   
     ########################################################################
     return X_norm, mu, sigma
@@ -55,8 +55,11 @@ def learning_curve(X,y,Xval,yval,reg):
     # TODO: compute error_train and error_val                                 #
     # 7 lines of code expected                                                #
     ###########################################################################
-
-
+    reglinear_reg3 = RegularizedLinearReg_SquaredLoss()
+    for i in range(1, num_examples):
+        theta_opt0 = reglinear_reg3.train(X[0:i], y[0:i], reg=0.0, num_iters=1000)
+        error_train[i] = reglinear_reg3.loss(theta_opt0,X,y,0.0)
+        error_val[i] = reglinear_reg3.loss(theta_opt0, Xval, yval, 0.0)
 
     ###########################################################################
 
@@ -81,16 +84,21 @@ def learning_curve(X,y,Xval,yval,reg):
 
 def validation_curve(X,y,Xval,yval):
   
-  reg_vec = [0, 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1, 3, 10]
-  error_train = np.zeros((len(reg_vec),))
-  error_val = np.zeros((len(reg_vec),))
+    reg_vec = [0, 0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1, 3, 10]
+    error_train = np.zeros((len(reg_vec),))
+    error_val = np.zeros((len(reg_vec),))
 
     ###########################################################################
     # TODO: compute error_train and error_val                                 #
     # 5 lines of code expected                                                #
     ###########################################################################
-
-  return reg_vec, error_train, error_val
+    reglinear_reg4 = RegularizedLinearReg_SquaredLoss()
+    for reg in reg_vec:
+        theta_opt0 = reglinear_reg4.train(X, y, reg, num_iters=1000)
+        error_train[reg] = reglinear_reg4.loss(theta_opt0, X, y, 0)
+        error_val[reg] = reglinear_reg4.loss(theta_opt0, Xval, yval, 0)    
+    
+    return reg_vec, error_train, error_val
 
 import random
 
@@ -120,7 +128,18 @@ def averaged_learning_curve(X,y,Xval,yval,reg):
     # TODO: compute error_train and error_val                                 #
     # 10-12 lines of code expected                                            #
     ###########################################################################
-
+    reglinear_reg5 = RegularizedLinearReg_SquaredLoss()
+    for i in xrange(1, num_examples):
+        error_train_sum = 0
+        error_val_sum = 0
+        for iter in xrange(50):
+            train_sample = np.random.choice(num_examples, i)
+            val_sample = np.random.choice(num_examples, i)
+            theta_opt0 = reglinear_reg5.train(X[train_sample], y[train_sample], reg=0.0, num_iters=1000)
+            error_train_sum += reglinear_reg5.loss(theta_opt0, X[train_sample], y[train_sample], 0)
+            error_val_sum += reglinear_reg5.loss(theta_opt0, Xval[val_sample], yval[val_sample], 0)
+        error_train[i] = error_train_sum / 50
+        error_val[i] = error_val_sum / 50
 
 
     ###########################################################################
