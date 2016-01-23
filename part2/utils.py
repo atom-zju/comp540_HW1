@@ -93,10 +93,10 @@ def validation_curve(X,y,Xval,yval):
     # 5 lines of code expected                                                #
     ###########################################################################
     reglinear_reg4 = RegularizedLinearReg_SquaredLoss()
-    for reg in reg_vec:
-        theta_opt0 = reglinear_reg4.train(X, y, reg, num_iters=1000)
-        error_train[reg] = reglinear_reg4.loss(theta_opt0, X, y, 0)
-        error_val[reg] = reglinear_reg4.loss(theta_opt0, Xval, yval, 0)    
+    for i in range(len(reg_vec)):
+        theta_opt0 = reglinear_reg4.train(X, y, reg_vec[i], num_iters=1000)
+        error_train[i] = reglinear_reg4.loss(theta_opt0, X, y, 0)
+        error_val[i] = reglinear_reg4.loss(theta_opt0, Xval, yval, 0)    
     
     return reg_vec, error_train, error_val
 
