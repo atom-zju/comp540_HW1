@@ -56,10 +56,10 @@ def learning_curve(X,y,Xval,yval,reg):
     # 7 lines of code expected                                                #
     ###########################################################################
     reglinear_reg3 = RegularizedLinearReg_SquaredLoss()
-    for i in range(1, num_examples):
-        theta_opt0 = reglinear_reg3.train(X[0:i], y[0:i], reg=0.0, num_iters=1000)
-        error_train[i] = reglinear_reg3.loss(theta_opt0,X,y,0.0)
-        error_val[i] = reglinear_reg3.loss(theta_opt0, Xval, yval, 0.0)
+    for i in range(2, num_examples+1):
+        theta_opt0 = reglinear_reg3.train(X[0:i], y[0:i], reg, num_iters=1000)
+        error_train[i-1] = reglinear_reg3.loss(theta_opt0,X[0:i],y[0:i],0.0)
+        error_val[i-1] = reglinear_reg3.loss(theta_opt0, Xval, yval, 0.0)
 
     ###########################################################################
 
@@ -128,18 +128,19 @@ def averaged_learning_curve(X,y,Xval,yval,reg):
     # TODO: compute error_train and error_val                                 #
     # 10-12 lines of code expected                                            #
     ###########################################################################
-    reglinear_reg5 = RegularizedLinearReg_SquaredLoss()
-    for i in xrange(1, num_examples):
+    
+    for i in range(2, num_examples+1):
         error_train_sum = 0
         error_val_sum = 0
-        for iter in xrange(50):
+        for iter in range(50):
+            reglinear_reg5 = RegularizedLinearReg_SquaredLoss()
             train_sample = np.random.choice(num_examples, i)
             val_sample = np.random.choice(num_examples, i)
-            theta_opt0 = reglinear_reg5.train(X[train_sample], y[train_sample], reg=0.0, num_iters=1000)
+            theta_opt0 = reglinear_reg5.train(X[train_sample], y[train_sample], reg, num_iters=1000)
             error_train_sum += reglinear_reg5.loss(theta_opt0, X[train_sample], y[train_sample], 0)
             error_val_sum += reglinear_reg5.loss(theta_opt0, Xval[val_sample], yval[val_sample], 0)
-        error_train[i] = error_train_sum / 50
-        error_val[i] = error_val_sum / 50
+        error_train[i-1] = error_train_sum / 50
+        error_val[i-1] = error_val_sum / 50
 
 
     ###########################################################################
