@@ -36,7 +36,7 @@ XX_val_norm = np.vstack([np.ones((X_val_norm.shape[0],)),X_val_norm.T]).T
 
 
 # determine the test error with lambda =0
-reg = 10
+reg = 0
 reglinear_reg1 = RegularizedLinearReg_SquaredLoss()
 theta_opt1 = reglinear_reg1.train(XX_train_norm,y_train,reg=reg,num_iters=10000)
 print 'Theta at lambda = 0 is ', theta_opt1
